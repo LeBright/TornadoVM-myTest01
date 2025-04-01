@@ -1,0 +1,285 @@
+.version 7.6 
+.target sm_86 
+.address_size 64 
+
+.visible .entry s0_t0_multiplyloop_matrix_matrix2dfloat_110431793_matrix_matrix2dfloat_1753150176_matrix_matrix2dfloat_1671590089(.param .u64 .ptr .global .align 8 kernel_context, .param .u64 .ptr .global .align 8 A, .param .u64 .ptr .global .align 8 B, .param .u64 .ptr .global .align 8 C) {
+	.reg .s32 rsi<18>;
+	.reg .f32 rfi<5>;
+	.reg .u64 rud<16>;
+	.reg .s64 rsd<7>;
+	.reg .u32 rui<9>;
+	.reg .pred rpb<4>;
+
+BLOCK_0:
+	ld.param.u64	rud0, [kernel_context];
+	ld.param.u64	rud1, [A];
+	ld.param.u64	rud2, [B];
+	ld.param.u64	rud3, [C];
+	mov.u32	rui0, %nctaid.x;
+	mov.u32	rui1, %ntid.x;
+	mul.wide.u32	rud4, rui0, rui1;
+	cvt.s32.u64	rsi0, rud4;
+	mov.u32	rui2, %nctaid.y;
+	mov.u32	rui3, %ntid.y;
+	mul.wide.u32	rud5, rui2, rui3;
+	cvt.s32.u64	rsi1, rud5;
+	add.u64	rud6, rud3, 32;
+	add.u64	rud7, rud2, 32;
+	add.u64	rud8, rud1, 32;
+	mov.u32	rui4, %tid.x;
+	mov.u32	rui5, %ctaid.x;
+	mad.lo.s32	rsi2, rui5, rui1, rui4;
+	mov.u32	rui6, %tid.y;
+	mov.u32	rui7, %ctaid.y;
+	mad.lo.s32	rsi3, rui7, rui3, rui6;
+
+BLOCK_1:
+	mov.s32	rsi4, rsi3;
+LOOP_COND_1:
+	setp.lt.s32	rpb0, rsi4, 1024;
+	@!rpb0 bra	BLOCK_9;
+
+BLOCK_2:
+	shl.b32	rsi5, rsi4, 10;
+	add.s32	rsi6, rsi5, 6;
+
+BLOCK_3:
+	mov.s32	rsi7, rsi2;
+LOOP_COND_3:
+	setp.lt.s32	rpb1, rsi7, 1024;
+	@!rpb1 bra	BLOCK_8;
+
+BLOCK_4:
+	add.s32	rsi8, rsi7, 6;
+
+BLOCK_5:
+	mov.f32	rfi0, 0F00000000;
+	mov.s32	rsi9, 0;
+LOOP_COND_5:
+	setp.lt.s32	rpb2, rsi9, 1024;
+	@!rpb2 bra	BLOCK_7;
+
+BLOCK_6:
+	ld.global.u64	rud9, [rud8];
+	add.s32	rsi10, rsi6, rsi9;
+	cvt.s64.s32	rsd0, rsi10;
+	shl.b64	rsd1, rsd0, 2;
+	add.u64	rud10, rud9, rsd1;
+	ld.global.f32	rfi1, [rud10];
+	ld.global.u64	rud11, [rud7];
+	shl.b32	rsi11, rsi9, 10;
+	add.s32	rsi12, rsi11, rsi8;
+	cvt.s64.s32	rsd2, rsi12;
+	shl.b64	rsd3, rsd2, 2;
+	add.u64	rud12, rud11, rsd3;
+	ld.global.f32	rfi2, [rud12];
+	mad.rn.f32	rfi3, rfi1, rfi2, rfi0;
+	add.s32	rsi13, rsi9, 1;
+	mov.f32	rfi0, rfi3;
+	mov.s32	rsi9, rsi13;
+	bra.uni	LOOP_COND_5;
+
+BLOCK_7:
+	ld.global.u64	rud13, [rud6];
+	add.s32	rsi14, rsi7, rsi6;
+	cvt.s64.s32	rsd4, rsi14;
+	shl.b64	rsd5, rsd4, 2;
+	add.u64	rud14, rud13, rsd5;
+	st.global.f32	[rud14], rfi0;
+	add.s32	rsi15, rsi0, rsi7;
+	mov.s32	rsi7, rsi15;
+	bra.uni	LOOP_COND_3;
+	bra.uni	BLOCK_3;
+
+BLOCK_8:
+	add.s32	rsi16, rsi1, rsi4;
+	mov.s32	rsi4, rsi16;
+	bra.uni	LOOP_COND_1;
+	bra.uni	BLOCK_1;
+
+BLOCK_9:
+	ret;
+}
+
+Task info: s0.t0
+	Backend           : PTX
+	Device            : NVIDIA GeForce RTX 4060 Ti GPU
+	Dims              : 2
+	Thread dimensions : [1024, 1024]
+	Blocks dimensions : [16, 16, 1]
+	Grids dimensions  : [64, 64, 1]
+
+.version 7.6 
+.target sm_86 
+.address_size 64 
+
+.visible .entry s1_t0_multiplyloopfold_matrix_matrix2dfloat_577245010_matrix_matrix2dfloat_1624788833_matrix_matrix2dfloat_1346197173(.param .u64 .ptr .global .align 8 kernel_context, .param .u64 .ptr .global .align 8 A, .param .u64 .ptr .global .align 8 B, .param .u64 .ptr .global .align 8 C) {
+	.reg .s32 rsi<19>;
+	.reg .f32 rfi<5>;
+	.reg .u64 rud<15>;
+	.reg .s64 rsd<7>;
+	.reg .u32 rui<5>;
+	.reg .pred rpb<3>;
+
+BLOCK_0:
+	ld.param.u64	rud0, [kernel_context];
+	ld.param.u64	rud1, [A];
+	ld.param.u64	rud2, [B];
+	ld.param.u64	rud3, [C];
+	mov.u32	rui0, %nctaid.x;
+	mov.u32	rui1, %ntid.x;
+	mul.wide.u32	rud4, rui0, rui1;
+	cvt.s32.u64	rsi0, rud4;
+	add.u64	rud5, rud3, 32;
+	add.u64	rud6, rud2, 32;
+	add.u64	rud7, rud1, 32;
+	mov.u32	rui2, %tid.x;
+	mov.u32	rui3, %ctaid.x;
+	mad.lo.s32	rsi1, rui3, rui1, rui2;
+
+BLOCK_1:
+	mov.s32	rsi2, rsi1;
+LOOP_COND_1:
+	setp.lt.s32	rpb0, rsi2, 1048576;
+	@!rpb0 bra	BLOCK_6;
+
+BLOCK_2:
+	rem.s32	rsi3, rsi2, 1024;
+	add.s32	rsi4, rsi3, 6;
+	shr.b32	rsi5, rsi2, 31;
+	shr.b32	rsi6, rsi5, 22;
+	add.s32	rsi7, rsi6, rsi2;
+	and.b32	rsi8, rsi7, -1024;
+	add.s32	rsi9, rsi8, 6;
+
+BLOCK_3:
+	mov.f32	rfi0, 0F00000000;
+	mov.s32	rsi10, 0;
+LOOP_COND_3:
+	setp.lt.s32	rpb1, rsi10, 1024;
+	@!rpb1 bra	BLOCK_5;
+
+BLOCK_4:
+	ld.global.u64	rud8, [rud7];
+	add.s32	rsi11, rsi9, rsi10;
+	cvt.s64.s32	rsd0, rsi11;
+	shl.b64	rsd1, rsd0, 2;
+	add.u64	rud9, rud8, rsd1;
+	ld.global.f32	rfi1, [rud9];
+	ld.global.u64	rud10, [rud6];
+	shl.b32	rsi12, rsi10, 10;
+	add.s32	rsi13, rsi12, rsi4;
+	cvt.s64.s32	rsd2, rsi13;
+	shl.b64	rsd3, rsd2, 2;
+	add.u64	rud11, rud10, rsd3;
+	ld.global.f32	rfi2, [rud11];
+	mad.rn.f32	rfi3, rfi1, rfi2, rfi0;
+	add.s32	rsi14, rsi10, 1;
+	mov.f32	rfi0, rfi3;
+	mov.s32	rsi10, rsi14;
+	bra.uni	LOOP_COND_3;
+
+BLOCK_5:
+	ld.global.u64	rud12, [rud5];
+	add.s32	rsi15, rsi8, rsi3;
+	add.s32	rsi16, rsi15, 6;
+	cvt.s64.s32	rsd4, rsi16;
+	shl.b64	rsd5, rsd4, 2;
+	add.u64	rud13, rud12, rsd5;
+	st.global.f32	[rud13], rfi0;
+	add.s32	rsi17, rsi0, rsi2;
+	mov.s32	rsi2, rsi17;
+	bra.uni	LOOP_COND_1;
+	bra.uni	BLOCK_1;
+
+BLOCK_6:
+	ret;
+}
+
+Task info: s1.t0
+	Backend           : PTX
+	Device            : NVIDIA GeForce RTX 4060 Ti GPU
+	Dims              : 1
+	Thread dimensions : [1048576]
+	Blocks dimensions : [1024, 1, 1]
+	Grids dimensions  : [1024, 1, 1]
+
+.version 7.6 
+.target sm_86 
+.address_size 64 
+
+.visible .entry s2_t0_multiplykernel_uk_ac_manchester_tornado_api_kernelcontext_369901249_matrix_matrix2dfloat_1657125852_matrix_matrix2dfloat_2078239671_matrix_matrix2dfloat_405488475(.param .u64 .ptr .global .align 8 kernel_context, .param .u64 .ptr .global .align 8 context_unused, .param .u64 .ptr .global .align 8 A, .param .u64 .ptr .global .align 8 B, .param .u64 .ptr .global .align 8 C) {
+	.reg .s32 rsi<13>;
+	.reg .f32 rfi<5>;
+	.reg .u64 rud<14>;
+	.reg .s64 rsd<7>;
+	.reg .u32 rui<3>;
+	.reg .pred rpb<2>;
+
+BLOCK_0:
+	ld.param.u64	rud0, [kernel_context];
+	ld.param.u64	rud1, [A];
+	ld.param.u64	rud2, [B];
+	ld.param.u64	rud3, [C];
+	mov.u32	rui0, %tid.y;
+	cvt.s32.u32	rsi0, rui0;
+	add.s32	rsi1, rsi0, 6;
+	add.u64	rud4, rud2, 32;
+	mov.u32	rui1, %tid.x;
+	cvt.s32.u32	rsi2, rui1;
+	shl.b32	rsi3, rsi2, 10;
+	add.s32	rsi4, rsi3, 6;
+	add.u64	rud5, rud1, 32;
+
+BLOCK_1:
+	mov.f32	rfi0, 0F00000000;
+	mov.s32	rsi5, 0;
+LOOP_COND_1:
+	setp.lt.s32	rpb0, rsi5, 1024;
+	@!rpb0 bra	BLOCK_3;
+
+BLOCK_2:
+	ld.global.u64	rud6, [rud5];
+	add.s32	rsi6, rsi4, rsi5;
+	cvt.s64.s32	rsd0, rsi6;
+	shl.b64	rsd1, rsd0, 2;
+	add.u64	rud7, rud6, rsd1;
+	ld.global.f32	rfi1, [rud7];
+	ld.global.u64	rud8, [rud4];
+	shl.b32	rsi7, rsi5, 10;
+	add.s32	rsi8, rsi7, rsi1;
+	cvt.s64.s32	rsd2, rsi8;
+	shl.b64	rsd3, rsd2, 2;
+	add.u64	rud9, rud8, rsd3;
+	ld.global.f32	rfi2, [rud9];
+	mad.rn.f32	rfi3, rfi1, rfi2, rfi0;
+	add.s32	rsi9, rsi5, 1;
+	mov.f32	rfi0, rfi3;
+	mov.s32	rsi5, rsi9;
+	bra.uni	LOOP_COND_1;
+
+BLOCK_3:
+	add.u64	rud10, rud3, 32;
+	ld.global.u64	rud11, [rud10];
+	add.s32	rsi10, rsi3, rsi0;
+	add.s32	rsi11, rsi10, 6;
+	cvt.s64.s32	rsd4, rsi11;
+	shl.b64	rsd5, rsd4, 2;
+	add.u64	rud12, rud11, rsd5;
+	st.global.f32	[rud12], rfi0;
+	ret;
+}
+
+Warning: TornadoVM changed the user-defined local size to the following: [16, 16, 1].
+Task info: s2.t0
+	Backend           : PTX
+	Device            : NVIDIA GeForce RTX 4060 Ti GPU
+	Dims              : 2
+	Thread dimensions : [1024, 1024, 1]
+	Blocks dimensions : [16, 16, 1]
+	Grids dimensions  : [64, 64, 1]
+
+Serial: 3066.143 ms
+loop: 315.547 ms
+loop fold: 39.634 ms
+kernle: 34.149 ms
